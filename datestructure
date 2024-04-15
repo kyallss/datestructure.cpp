@@ -1,0 +1,76 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Date {
+    int day;
+    int month;
+    int year;
+
+    void newDate(int d, int m, int y) {
+        day=d;
+        month=m;
+        year=y;
+    }
+
+    bool isValidDate() {
+        if (year<0) 
+            return false;
+
+        if (month<1 || month>12) 
+            return false;
+
+        if (day<1 || day>daysInMonth()) 
+            return false;
+
+        return true;
+    }
+
+    int daysInMonth() {
+        int days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        return days[month - 1];
+    }
+
+    string monthToString(int month) {
+        switch (month) {
+            case 1: return "January";
+            case 2: return "February";
+            case 3: return "March";
+            case 4: return "April";
+            case 5: return "May";
+            case 6: return "June";
+            case 7: return "July";
+            case 8: return "August";
+            case 9: return "September";
+            case 10: return "October";
+            case 11: return "November";
+            case 12: return "December";
+            default: return "Invalid Month";
+        }
+    }
+
+    void printDate() {
+        if (isValidDate()) {
+            cout << monthToString(month) << " " << day << ", " << year << endl;
+        } else {
+            cout << "Invalid Date" << endl;
+        }
+    }
+};
+
+int main() {
+    Date date1;
+    date1.newDate(13, 4, 2024);
+    Date date2;
+    date2.newDate(31, 2, 2024);
+    Date date3;
+    date3.newDate(29, 2, 2023);
+
+    cout << "date1: ";
+    date1.printDate();
+    cout << "date2: ";
+    date2.printDate();
+    cout << "date3: ";
+    date3.printDate();
+
+}
+
