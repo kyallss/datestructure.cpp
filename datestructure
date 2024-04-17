@@ -11,25 +11,24 @@ struct Date {
         month=m;
         year=y;
     }
-    
+   
     bool isValidDate() {
         if (year<0) 
             return false;
 
-        if (month<1 or month>12) 
+        if (month<1 || month>12) 
             return false;
 
-        if (day<1 or day>daysInMonth()) 
+        if (day<1 || day>daysInMonth()) 
             return false;
 
         return true;
     }
 
     int daysInMonth() {
-        int days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int days[]={31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         return days[month-1];
     }
-
 
     string monthToString(int month) {
         switch (month) {
@@ -51,17 +50,61 @@ struct Date {
 
     void printDate() {
         if (isValidDate()) {
-            cout << monthToString(month) << " " << day << ", " << year << endl;
+            cout << monthToString(month) << " " << day << ", " << year << " is ";
+            printDayOfWeek();
         } else {
             cout << "Invalid Date" << endl;
         }
     }
+
+    void printDayOfWeek() {
+        int monthVal=month;
+        int yearVal=year;
+
+        if (monthVal==1 || monthVal==2) {
+            monthVal+=12;
+            yearVal-=1;
+        }
+
+        int j=yearVal/100;
+        int k=yearVal%100;
+        int h=(day+13*(monthVal+1)/5+k+k/4+j/4+5*j)%7;
+
+        string dayOfWeek;
+        switch (h) {
+            case 0:
+                dayOfWeek="Saturday";
+                break;
+            case 1:
+                dayOfWeek="Sunday";
+                break;
+            case 2:
+                dayOfWeek="Monday";
+                break;
+            case 3:
+                dayOfWeek="Tuesday";
+                break;
+            case 4:
+                dayOfWeek="Wednesday";
+                break;
+            case 5:
+                dayOfWeek="Thursday";
+                break;
+            case 6:
+                dayOfWeek="Friday";
+                break;
+            default:
+                dayOfWeek="Invalid";
+        }
+        cout <<dayOfWeek<< endl;
+    }
+
     bool operator<(const Date& date) {
-    if (year<date.year) return true;
-    if (year>date.year) return false;
-    if (month<date.month) return true;
-    if (month>date.month) return false;
-    return day<date.day;
+        if (year<date.year) return true;
+        if (year>date.year) return false;
+        if (month<date.month) return true;
+        if (month>date.month) return false;
+        return day<date.day;
     }
 };
 
@@ -71,7 +114,7 @@ int main() {
     Date date2;
     date2.newDate(31, 2, 2024);
     Date date3;
-    date3.newDate(29, 2, 2023);
+    date3.newDate(2, 5, 2021);
 
     cout << "date1: ";
     date1.printDate();
@@ -80,13 +123,14 @@ int main() {
     cout << "date3: ";
     date3.printDate();
 
-    vector<Date>dates;
+    vector<Date> dates;
     dates.push_back(date1);
     dates.push_back(date2);
     dates.push_back(date3);
     
     sort(dates.begin(), dates.end());
     
-    for(auto d:dates)
+    for(auto d : dates)
         d.printDate();
+
 }
